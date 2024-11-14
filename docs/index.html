@@ -12,7 +12,7 @@
 
     <script>
         // Connect to the MQTT broker
-        const client = mqtt.connect('ws://test.mosquitto.org:8081'); // Using WebSockets for browser compatibility
+        const client = mqtt.connect('wss://test.mosquitto.org:8081'); // Using WebSockets for browser compatibility
 
         // Subscribe to the topic
         client.on('connect', function () {
