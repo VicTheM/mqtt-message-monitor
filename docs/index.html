@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Subscriber</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+    <h1>MESSAGES FROM MQTT BROKER</h1>
+    <div id="messages"></div>
 
+    <script>
+        // Connect to the MQTT broker
+        const client = mqtt.connect('wss://test.mosquitto.org:8081'); // Using WebSockets for browser compatibility
+
+        // Subscribe to the topic
+        client.on('connect', function () {
+            console.log('Connected to MQTT broker');
+            client.subscribe('robonish/gps/fix', function (err) {
+                if (!err) {
+                    console.log('Subscribed to robonish/gps/fix');
+                } else {
+                    console.error('Failed to subscribe:', err);
+                }
+            });
+        });
+
+        // Handle incoming messages
+        client.on('message', function (topic, message) {
+            // Display the message on the page
+            const messageDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = `Received message on ${topic}: ${message.toString()}`;
+            messageDiv.appendChild(newMessage);
+        });
+    </script>
+</body>
+</html>
